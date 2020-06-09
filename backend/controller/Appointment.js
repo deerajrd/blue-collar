@@ -1,4 +1,5 @@
 const path = require("path");
+const _isEmpty = require("lodash").isEmpty;
 
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
@@ -22,7 +23,7 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
     user: req.user.id,
   });
 
-  if (req.body.user == existingAppointment.user) {
+  if (_isEmpty(existingAppointment)) {
     return next(new ErrorResponse(`Appointment exists`, 400));
   }
 
