@@ -1,9 +1,7 @@
 const dotenv = require("dotenv");
-const express=require('express');
-const connectDb=require('./config/db')
-dotenv.config({path:"./config/config.env"})
-
-
+const express = require("express");
+const connectDb = require("./config/db");
+dotenv.config({ path: "./config/config.env" });
 
 const path = require("path");
 
@@ -35,8 +33,8 @@ const Employer = require("./routes/employer");
 const Center = require("./routes/center");
 // const Job = require("./routes/Job");
 const Category = require("./routes/category");
+const Appointments = require("./routes/Appointments");
 //  const reviews = require("./routes/reviews");
-
 
 //initialize app with express
 const app = express();
@@ -45,15 +43,15 @@ const app = express();
 app.use(express.json());
 
 // Cookie parser
- app.use(cookieParser());
+app.use(cookieParser());
 
 //Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
- }
+}
 
 // // File uploading
- app.use(fileupload());
+app.use(fileupload());
 
 // // Sanitize data
 app.use(mongoSanitize());
@@ -62,20 +60,20 @@ app.use(mongoSanitize());
 app.use(helmet());
 
 // // Prevent XSS attacks
- app.use(xss());
+app.use(xss());
 
 // // Rate limiting
- const limiter = rateLimit({
- windowMs: 10 * 60 * 1000, // 10 mins
-  max: 100
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 mins
+  max: 100,
 });
 app.use(limiter);
 
 // // Prevent http param pollution
- app.use(hpp());
+app.use(hpp());
 
 // // Enable CORS
- app.use(cors());
+app.use(cors());
 
 //Mount routers
 app.use("/api/v1/category", Category);
@@ -83,6 +81,7 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/center", Center);
 app.use("/api/v1/employer", Employer);
+app.use("/api/v1/appointments", Appointments);
 // app.use("/api/v1/Job", Job);
 // app.use(errorHandler);
 
