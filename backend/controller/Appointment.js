@@ -22,18 +22,9 @@ exports.createAppointment = asyncHandler(async (req, res, next) => {
     user: req.user.id,
   });
 
-  // console.log("All existingAppointment", AppointmentList);
-
-  // const AppointmentList = await Appointment.find();
-
-  // console.log("All Appointment", AppointmentList);
-  // console.log("req.user.id", req.user.id);
-
-  // console.log("--existingAppointment", existingAppointment);
-
-  // if (req.body.id === existingAppointment.user) {
-  //   return next(new ErrorResponse(`Appointment exists`, 400));
-  // }
+  if (req.body.user == existingAppointment.user) {
+    return next(new ErrorResponse(`Appointment exists`, 400));
+  }
 
   const appointment = await Appointment.create(req.body);
 
